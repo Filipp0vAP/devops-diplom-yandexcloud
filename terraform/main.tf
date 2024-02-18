@@ -194,68 +194,68 @@ resource "yandex_kubernetes_node_group" "preprod_node_group" {
   #   }
   # }
 }
-resource "yandex_kubernetes_node_group" "dev_node_group" {
-  cluster_id  = yandex_kubernetes_cluster.regional_cluster_filipp0vap.id
-  name        = "dev-nodes"
-  description = "dev nodes"
+# resource "yandex_kubernetes_node_group" "dev_node_group" {
+#   cluster_id  = yandex_kubernetes_cluster.regional_cluster_filipp0vap.id
+#   name        = "dev-nodes"
+#   description = "dev nodes"
 
-  # labels = {
-  #   "key" = "value"
-  # }
+#   # labels = {
+#   #   "key" = "value"
+#   # }
 
-  instance_template {
-    platform_id = "standard-v2"
+#   instance_template {
+#     platform_id = "standard-v2"
 
-    network_interface {
-      nat        = true
-      subnet_ids = ["${yandex_vpc_subnet.dev.id}"]
-    }
+#     network_interface {
+#       nat        = true
+#       subnet_ids = ["${yandex_vpc_subnet.dev.id}"]
+#     }
 
-    resources {
-      memory = 2
-      cores  = 2
-    }
+#     resources {
+#       memory = 2
+#       cores  = 2
+#     }
 
-    boot_disk {
-      type = "network-hdd"
-      size = 64
-    }
+#     boot_disk {
+#       type = "network-hdd"
+#       size = 64
+#     }
 
-    scheduling_policy {
-      preemptible = true
-    }
+#     scheduling_policy {
+#       preemptible = true
+#     }
 
-    container_runtime {
-      type = "containerd"
-    }
-  }
+#     container_runtime {
+#       type = "containerd"
+#     }
+#   }
 
-  scale_policy {
-    fixed_scale {
-      size = 1
-    }
-  }
+#   scale_policy {
+#     fixed_scale {
+#       size = 1
+#     }
+#   }
 
-  allocation_policy {
-    location {
-      zone = yandex_vpc_subnet.dev.zone
-    }
-  }
+#   allocation_policy {
+#     location {
+#       zone = yandex_vpc_subnet.dev.zone
+#     }
+#   }
 
-  # maintenance_policy {
-  #   auto_upgrade = true
-  #   auto_repair  = true
+#   # maintenance_policy {
+#   #   auto_upgrade = true
+#   #   auto_repair  = true
 
-  #   maintenance_window {
-  #     day        = "monday"
-  #     start_time = "15:00"
-  #     duration   = "3h"
-  #   }
+#   #   maintenance_window {
+#   #     day        = "monday"
+#   #     start_time = "15:00"
+#   #     duration   = "3h"
+#   #   }
 
-  #   maintenance_window {
-  #     day        = "friday"
-  #     start_time = "10:00"
-  #     duration   = "4h30m"
-  #   }
-  # }
-}
+#   #   maintenance_window {
+#   #     day        = "friday"
+#   #     start_time = "10:00"
+#   #     duration   = "4h30m"
+#   #   }
+#   # }
+# }
