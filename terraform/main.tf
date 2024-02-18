@@ -63,9 +63,9 @@ resource "yandex_kubernetes_cluster" "regional_cluster_filipp0vap" {
 
   release_channel = "STABLE"
 }
-resource "yandex_kubernetes_node_group" "prod-node-group" {
+resource "yandex_kubernetes_node_group" "prod_node_group" {
   cluster_id  = yandex_kubernetes_cluster.regional_cluster_filipp0vap.id
-  name        = "prod_nodes"
+  name        = "prod-nodes"
   description = "prod nodes"
 
   # labels = {
@@ -129,9 +129,9 @@ resource "yandex_kubernetes_node_group" "prod-node-group" {
   # }
 }
 
-resource "yandex_kubernetes_node_group" "preprod-node-group" {
+resource "yandex_kubernetes_node_group" "preprod_node_group" {
   cluster_id  = yandex_kubernetes_cluster.regional_cluster_filipp0vap.id
-  name        = "preprod_nodes"
+  name        = "preprod-nodes"
   description = "preprod nodes"
 
   # labels = {
@@ -194,9 +194,9 @@ resource "yandex_kubernetes_node_group" "preprod-node-group" {
   #   }
   # }
 }
-resource "yandex_kubernetes_node_group" "dev-node-group" {
+resource "yandex_kubernetes_node_group" "dev_node_group" {
   cluster_id  = yandex_kubernetes_cluster.regional_cluster_filipp0vap.id
-  name        = "dev_nodes"
+  name        = "dev-nodes"
   description = "dev nodes"
 
   # labels = {
