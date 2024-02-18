@@ -1,4 +1,4 @@
-resource "yandex_kubernetes_cluster" "regional_cluster_resource_name" {
+resource "yandex_kubernetes_cluster" "regional_cluster_filipp0vap" {
   name        = "name"
   description = "description"
 
