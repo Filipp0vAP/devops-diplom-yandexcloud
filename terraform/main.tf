@@ -1,63 +1,65 @@
-resource "yandex_compute_instance" "preprod_master_node" {
-  name                      = "preprod-master-node"
-  hostname                  = "preprod-master-node"
-  allow_stopping_for_update = true
-  zone                      = yandex_vpc_subnet.preprod.zone
-  scheduling_policy {
-    preemptible = true
-  }
-  resources {
-    cores         = 2
-    memory        = 4
-    core_fraction = 20
-  }
-  boot_disk {
-    initialize_params {
-      image_id = "fd827b91d99psvq5fjit"
-      size     = 40
-      type     = "network-ssd"
+resource "yandex_kubernetes_cluster" "regional_cluster_resource_name" {
+  name        = "name"
+  description = "description"
+
+  network_id = "${yandex_vpc_network.network-1.id}"
+
+  master {
+    regional {
+      region = "ru-central1"
+
+      location {
+        zone      = "${yandex_vpc_subnet.prod.zone}"
+        subnet_id = "${yandex_vpc_subnet.prod.id}"
+      }
+
+      location {
+        zone      = "${yandex_vpc_subnet.preprod.zone}"
+        subnet_id = "${yandex_vpc_subnet.preprod.id}"
+      }
+
+      location {
+        zone      = "${yandex_vpc_subnet.dev.zone}"
+        subnet_id = "${yandex_vpc_subnet.dev.id}"
+      }
+    }
+
+    # version   = "1.14"
+    public_ip = true
+
+    # maintenance_policy {
+    #   auto_upgrade = true
+
+    #   maintenance_window {
+    #     day        = "monday"
+    #     start_time = "15:00"
+    #     duration   = "3h"
+    #   }
+
+    #   maintenance_window {
+    #     day        = "friday"
+    #     start_time = "10:00"
+    #     duration   = "4h30m"
+    #   }
+    # }
+
+    master_logging {
+      enabled = true
+      folder_id = "${yandex_folder_id}"
+      kube_apiserver_enabled = true
+      cluster_autoscaler_enabled = true
+      events_enabled = true
+      audit_enabled = true
     }
   }
-  network_interface {
-    subnet_id = yandex_vpc_subnet.preprod.id
-    nat       = true
-  }
-  metadata = {
-    serial-port-enable = 1
-    ssh-keys           = "ubuntu:${file("./id_rsa.pub")}"
-  }
-}
 
-resource "yandex_compute_instance" "preprod_worker_node" {
-  count    = 2
-  name     = "preprod-worker-node-${count.index}"
-  hostname = "preprod-worker-node-${count.index}"
+  service_account_id      = "${yandex_iam_service_account.k8s-sa.id}"
+  node_service_account_id = "${yandex_iam_service_account.k8s-node-sa.id}"
 
-  allow_stopping_for_update = true
+  # labels = {
+  #   my_key       = "my_value"
+  #   my_other_key = "my_other_value"
+  # }
 
-  zone = yandex_vpc_subnet.preprod.zone
-
-  scheduling_policy {
-    preemptible = true
-  }
-  resources {
-    cores         = 2
-    memory        = 4
-    core_fraction = 20
-  }
-  boot_disk {
-    initialize_params {
-      image_id = "fd827b91d99psvq5fjit"
-      size     = 30
-      type     = "network-ssd"
-    }
-  }
-  network_interface {
-    subnet_id = yandex_vpc_subnet.preprod.id
-    nat       = true
-  }
-  metadata = {
-    serial-port-enable = 1
-    ssh-keys           = "ubuntu:${file("./id_rsa.pub")}"
-  }
+  release_channel = "STABLE"
 }
