@@ -64,7 +64,7 @@ resource "yandex_kubernetes_cluster" "regional_cluster_filipp0vap" {
   release_channel = "STABLE"
 }
 resource "yandex_kubernetes_node_group" "prod-node-group" {
-  cluster_id  = "${yandex_kubernetes_cluster.regional_cluster_filipp0vap.id}"
+  cluster_id  = yandex_kubernetes_cluster.regional_cluster_filipp0vap.id
   name        = "prod_nodes"
   description = "prod nodes"
 
@@ -76,8 +76,8 @@ resource "yandex_kubernetes_node_group" "prod-node-group" {
     platform_id = "standard-v2"
 
     network_interface {
-      nat                = true
-      subnet_ids         = ["${yandex_vpc_subnet.prod.id}"]
+      nat        = true
+      subnet_ids = ["${yandex_vpc_subnet.prod.id}"]
     }
 
     resources {
@@ -130,7 +130,7 @@ resource "yandex_kubernetes_node_group" "prod-node-group" {
 }
 
 resource "yandex_kubernetes_node_group" "preprod-node-group" {
-  cluster_id  = "${yandex_kubernetes_cluster.regional_cluster_filipp0vap.id}"
+  cluster_id  = yandex_kubernetes_cluster.regional_cluster_filipp0vap.id
   name        = "preprod_nodes"
   description = "preprod nodes"
 
@@ -142,8 +142,8 @@ resource "yandex_kubernetes_node_group" "preprod-node-group" {
     platform_id = "standard-v2"
 
     network_interface {
-      nat                = true
-      subnet_ids         = ["${yandex_vpc_subnet.preprod.id}"]
+      nat        = true
+      subnet_ids = ["${yandex_vpc_subnet.preprod.id}"]
     }
 
     resources {
@@ -195,7 +195,7 @@ resource "yandex_kubernetes_node_group" "preprod-node-group" {
   # }
 }
 resource "yandex_kubernetes_node_group" "dev-node-group" {
-  cluster_id  = "${yandex_kubernetes_cluster.regional_cluster_filipp0vap.id}"
+  cluster_id  = yandex_kubernetes_cluster.regional_cluster_filipp0vap.id
   name        = "dev_nodes"
   description = "dev nodes"
 
@@ -207,8 +207,8 @@ resource "yandex_kubernetes_node_group" "dev-node-group" {
     platform_id = "standard-v2"
 
     network_interface {
-      nat                = true
-      subnet_ids         = ["${yandex_vpc_subnet.dev.id}"]
+      nat        = true
+      subnet_ids = ["${yandex_vpc_subnet.dev.id}"]
     }
 
     resources {
