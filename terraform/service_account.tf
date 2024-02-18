@@ -5,12 +5,21 @@ resource "yandex_iam_service_account" "k8s-sa" {
 }
 
 ## Grant permissions
-resource "yandex_resourcemanager_folder_iam_member" "sa-k8s" {
+resource "yandex_resourcemanager_folder_iam_member" "sa-k8s-clister-agent" {
   folder_id = var.yandex_folder_id
   role      = "k8s.clusters.agent"
   member    = "serviceAccount:${yandex_iam_service_account.k8s-sa.id}"
 }
-
+resource "yandex_resourcemanager_folder_iam_member" "sa-k8s-editor" {
+  folder_id = var.yandex_folder_id
+  role      = "k8s.editor"
+  member    = "serviceAccount:${yandex_iam_service_account.k8s-sa.id}"
+}
+resource "yandex_resourcemanager_folder_iam_member" "sa-k8s-serviceAccounts-user" {
+  folder_id = var.yandex_folder_id
+  role      = "iam.serviceAccounts.user"
+  member    = "serviceAccount:${yandex_iam_service_account.k8s-sa.id}"
+}
 ## Create Static Access Keys
 resource "yandex_iam_service_account_static_access_key" "sa-k8s-static-key" {
   service_account_id = yandex_iam_service_account.k8s-sa.id
