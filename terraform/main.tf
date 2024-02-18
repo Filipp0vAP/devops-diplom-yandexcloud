@@ -107,7 +107,7 @@ resource "yandex_kubernetes_node_group" "prod-node-group" {
 
   allocation_policy {
     location {
-      zone = ["${yandex_vpc_subnet.prod.zone}"]
+      zone = yandex_vpc_subnet.prod.zone
     }
   }
 
@@ -173,7 +173,7 @@ resource "yandex_kubernetes_node_group" "preprod-node-group" {
 
   allocation_policy {
     location {
-      zone = ["${yandex_vpc_subnet.preprod.zone}"]
+      zone = yandex_vpc_subnet.preprod.zone
     }
   }
 
@@ -238,7 +238,7 @@ resource "yandex_kubernetes_node_group" "dev-node-group" {
 
   allocation_policy {
     location {
-      zone = ["${yandex_vpc_subnet.dev.zone}"]
+      zone = yandex_vpc_subnet.dev.zone
     }
   }
 
